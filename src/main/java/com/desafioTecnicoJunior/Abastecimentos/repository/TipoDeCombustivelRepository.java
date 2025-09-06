@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface TipoDeCombustivelRepository extends JpaRepository<TipoDeCombustivel, Long> {
 
     Optional<TipoDeCombustivel> findByNome(String nome);
+    void deleteByNome(String nome);
 }

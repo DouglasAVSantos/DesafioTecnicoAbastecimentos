@@ -1,5 +1,6 @@
 package com.desafioTecnicoJunior.Abastecimentos.controller;
 
+import com.desafioTecnicoJunior.Abastecimentos.exception.NotFoundException;
 import com.desafioTecnicoJunior.Abastecimentos.exception.RegistroDuplicadoException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +21,19 @@ public class GlobalExceptionHandler {
 
     }
 
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<Map<String, String>> notFoundHandler(NotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("erro", ex.getMessage()));
+
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> validationHandler(MethodArgumentNotValidException ex) {
+    public ResponseEntity<Map<String, String>> beanValidationHandler(MethodArgumentNotValidException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("erro", Arrays.toString(ex.getDetailMessageArguments()).replaceFirst(", ", "")));
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<Map<String, String>> validationHandler(HttpMessageNotReadableException ex) {
+    public ResponseEntity<Map<String, String>> jsonValidationHandler(HttpMessageNotReadableException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("erro", "O corpo da requisição está inválido. Verifique a sintaxe do JSON ou os tipos dos campos."));
     }
 }

@@ -21,7 +21,7 @@ public class TipoDeCombustivel {
     private BigDecimal valorPorLitro;
 
     public TipoDeCombustivel(TipoDeCombustivelDto dto) {
-        this.nome = dto.nome();
+        this.nome = dto.nome().toLowerCase();
         this.valorPorLitro = dto.valorPorLitro();
     }
 
