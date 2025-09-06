@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
@@ -23,6 +24,11 @@ public class TipoDeCombustivelController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<TipoDeCombustivelDto> cadastrar(@RequestBody @Valid TipoDeCombustivelDto dto) {
         TipoDeCombustivel combustivel = service.cadastrar(dto);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()       // pega /api/v1/tipo
+                .path("/{id}")              // adiciona /{id}
+                .buildAndExpand(combustivel.getId())
+                .toUri();
         return ResponseEntity.created(URI.create("api/v1/tipo/" + combustivel.getId())).body(dto);
     }
 
