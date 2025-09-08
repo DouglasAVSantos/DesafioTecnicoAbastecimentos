@@ -24,15 +24,19 @@ public class TipoService {
     }
 
     public Boolean jaCadastrado(String nome) {
-        return repository.findByNome(nome).isPresent();
+
+        if(repository.findByNome(nome.toLowerCase()).isPresent()){
+            return true;
+        }
+        return false;
     }
 
     public Tipo findById(Long id) {
         return repository.findById(id).orElseThrow(() -> new NotFoundException("Tipo não encontrado para o id: " + id));
     }
 
-    public Tipo findByNome(String id) {
-        return repository.findByNome(id.toLowerCase()).orElseThrow(() -> new NotFoundException("Tipo não encontrado para o id: " + id));
+    public Tipo findByNome(String nome) {
+        return repository.findByNome(nome.toLowerCase()).orElseThrow(() -> new NotFoundException("Tipo não encontrado para o id: " + nome));
     }
 
     public List<Tipo> getLista() {

@@ -3,6 +3,8 @@ package com.desafioTecnicoJunior.Abastecimentos.model;
 
 import com.desafioTecnicoJunior.Abastecimentos.dto.BombaDto;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -10,18 +12,20 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Bomba {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_tipo")
     private Tipo tipo;
 
-    public Bomba(BombaDto dto){
-        this.nome = dto.nome().toLowerCase();
-        this.tipo = dto.tipo();
+    public Bomba(String nome, Tipo tipo){
+        this.nome = nome;
+        this.tipo = tipo;
     }
+
 }
