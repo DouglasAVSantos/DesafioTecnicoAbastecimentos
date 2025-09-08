@@ -1,15 +1,15 @@
 package com.desafioTecnicoJunior.Abastecimentos.repository;
 
 
-import com.desafioTecnicoJunior.Abastecimentos.model.TipoDeCombustivel;
+import com.desafioTecnicoJunior.Abastecimentos.model.Tipo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface TipoDeCombustivelRepository extends JpaRepository<TipoDeCombustivel, Long> {
+public interface TipoRepository extends JpaRepository<Tipo, Long> {
 
-    Optional<TipoDeCombustivel> findByNome(String nome);
+    Optional<Tipo> findByNome(String nome);
     void deleteByNome(String nome);
 }
