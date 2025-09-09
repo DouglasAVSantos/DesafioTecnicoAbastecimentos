@@ -8,5 +8,8 @@ import java.util.Optional;
 
 public interface BombaRepository extends JpaRepository<Bomba,Long> {
 
-    public Optional<Bomba> findByNome(String nome);
+    Optional<Bomba> findByNome(String nome);
+    void deleteByNome(String nome);
+    Boolean existsByNome(String name);
+
 }
