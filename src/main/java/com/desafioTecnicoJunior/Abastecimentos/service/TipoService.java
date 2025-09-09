@@ -50,9 +50,9 @@ public class TipoService {
     }
 
     public String deleteByNome(String nome) {
-        repository.findByNome(nome.toLowerCase()).orElseThrow(() -> new NotFoundException("Tipo não encontrado para o id: " + nome));
+        repository.findByNome(nome.toLowerCase()).orElseThrow(() -> new NotFoundException("Tipo não encontrado para o nome: " + nome));
         repository.deleteByNome(nome);
-        return "registro de id: '"+nome+"' deletado com sucesso.";
+        return "registro de nome: '"+nome+"' deletado com sucesso.";
     }
 
     public TipoDto atualizar(Long id, TipoDto dto){

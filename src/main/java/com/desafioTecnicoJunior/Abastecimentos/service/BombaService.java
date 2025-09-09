@@ -64,7 +64,7 @@ public class BombaService {
 
     public BombaDto atualizar(Long id, BombaDto dto){
         Bomba desatualizado = repository.findById(id).orElseThrow(()->new NotFoundException("Bomba não encontrada para o id: "+id));
-        Tipo tipoValido = tipoService.findByNome(dto.nome().toLowerCase());
+        Tipo tipoValido = tipoService.findByNome(dto.tipo().toLowerCase());
 
         desatualizado.setNome(dto.nome().toLowerCase());
         desatualizado.setTipo(tipoValido);
