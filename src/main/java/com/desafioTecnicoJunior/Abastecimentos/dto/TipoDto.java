@@ -17,6 +17,8 @@ public record TipoDto(
         BigDecimal valorPorLitro
 ) {
     public TipoDto(Tipo combustivel) {
-        this(combustivel.getNome().toLowerCase(), combustivel.getValorPorLitro());
+
+        this(combustivel.getNome().toLowerCase(),
+                combustivel.getValorPorLitro());
     }
 }
