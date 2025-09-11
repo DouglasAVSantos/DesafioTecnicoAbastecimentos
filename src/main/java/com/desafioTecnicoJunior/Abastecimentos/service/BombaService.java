@@ -44,7 +44,7 @@ public class BombaService {
     }
 
     public BombaDto findByNome(String nome) {
-        return new BombaDto(repository.findByNome(nome.toLowerCase()).orElseThrow(() -> new NotFoundException("Bomba não encontrada para o id: " + nome)));
+        return new BombaDto(repository.findByNome(nome.toLowerCase()).orElseThrow(() -> new NotFoundException("Bomba não encontrada para o nome: " + nome)));
     }
 
     public void deleteById(Long id) {
