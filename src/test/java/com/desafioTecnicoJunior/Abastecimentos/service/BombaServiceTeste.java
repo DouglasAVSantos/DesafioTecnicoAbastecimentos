@@ -166,6 +166,26 @@ public class BombaServiceTeste {
         NotFoundException ex = assertThrows(NotFoundException.class, () ->
                 bombaService.deleteById(1L));
         assertEquals("Bomba não encontrada para o id: 1", ex.getMessage());
+        verify(repository, times(1)).existsById(1L);
+        verify(repository, never()).deleteById(1L);
+    }
+
+    @Test
+    void deveDeletarPorNomeComSucesso() {
+        when(repository.existsByNome("any")).thenReturn(true);
+        doNothing().when(repository).deleteByNome("any");
+        assertDoesNotThrow(() -> bombaService.deleteByNome("any"));
+        verify(repository, times(1)).existsByNome("any");
+        verify(repository, times(1)).deleteByNome("any");
+    }
+
+    @Test
+    void deveLancarExcecaoQuandoDeletarPorNome() {
+        when(repository.existsByNome("any")).thenReturn(false);
+        NotFoundException ex = assertThrows(NotFoundException.class, () ->
+                bombaService.deleteByNome("any"));
+        assertEquals("Bomba não encontrada com o nome: any", ex.getMessage());
+        verify(repository, times(1)).existsByNome("any");
         verify(repository, never()).deleteById(1L);
     }
 
