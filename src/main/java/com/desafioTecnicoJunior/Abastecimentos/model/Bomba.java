@@ -24,7 +24,8 @@ public class Bomba {
     private Tipo tipo;
 
     public Bomba(String nome, Tipo tipo){
-        this.nome = nome;
+        this.nome = nome.toLowerCase();
+        tipo.setNome(tipo.getNome().toLowerCase());
         this.tipo = tipo;
     }
 

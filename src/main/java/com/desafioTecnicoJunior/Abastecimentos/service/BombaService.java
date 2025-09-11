@@ -6,6 +6,7 @@ import com.desafioTecnicoJunior.Abastecimentos.exception.RegistroDuplicadoExcept
 import com.desafioTecnicoJunior.Abastecimentos.model.Bomba;
 import com.desafioTecnicoJunior.Abastecimentos.model.Tipo;
 import com.desafioTecnicoJunior.Abastecimentos.repository.BombaRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ public class BombaService {
     private final BombaRepository repository;
     private final TipoService tipoService;
 
+    @Transactional
     public Bomba cadastrar(BombaDto dto) {
         if (jaCadastrado(dto)) {
             throw new RegistroDuplicadoException("A bomba '" + dto.nome() + "' já está cadastrada");
@@ -47,20 +49,24 @@ public class BombaService {
         return new BombaDto(repository.findByNome(nome.toLowerCase()).orElseThrow(() -> new NotFoundException("Bomba não encontrada para o nome: " + nome)));
     }
 
+    public Bomba getBomba(String nome) {
+        return repository.findByNome(nome.toLowerCase()).orElseThrow(() -> new NotFoundException("Bomba não encontrada para o nome: " + nome));
+    }
+    @Transactional
     public void deleteById(Long id) {
         if (!repository.existsById(id)) {
             throw new NotFoundException("Bomba não encontrada para o id: " + id);
         }
         repository.deleteById(id);
     }
-
+@Transactional
     public void deleteByNome(String nome) {
         if (!repository.existsByNome(nome.toLowerCase())) {
             throw new NotFoundException("Bomba não encontrada com o nome: " + nome);
         }
         repository.deleteByNome(nome.toLowerCase());
     }
-
+    @Transactional
     public BombaDto atualizar(Long id, BombaDto dto) {
         Bomba desatualizado = repository.findById(id).orElseThrow(() -> new NotFoundException("Bomba não encontrada para o id: " + id));
         Tipo tipoValido = tipoService.findByNome(dto.tipo().toLowerCase());
