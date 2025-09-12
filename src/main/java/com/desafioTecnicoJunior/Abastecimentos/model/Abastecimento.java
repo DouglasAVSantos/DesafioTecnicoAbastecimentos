@@ -32,7 +32,7 @@ public class Abastecimento {
         this.data = LocalDateTime.now();
         if (porValor) {
             this.valorTotal = valorTotal;
-            this.litragem = valorTotal.divide(bomba.getTipo().getValorPorLitro(),3, RoundingMode.HALF_UP);
+            this.litragem = valorTotal.divide(bomba.getTipo().getValorPorLitro(),6, RoundingMode.HALF_UP);
         }
         if (!porValor) {
             this.valorTotal = valorTotal.multiply(bomba.getTipo().getValorPorLitro());

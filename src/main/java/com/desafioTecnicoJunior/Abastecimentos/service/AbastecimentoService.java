@@ -52,7 +52,7 @@ public class AbastecimentoService {
         atualizado.setBomba(bomba);
         atualizado.setData(LocalDateTime.now());
         atualizado.setValorTotal(dto.valor());
-        atualizado.setLitragem(dto.valor().divide(bomba.getTipo().getValorPorLitro(), 3, RoundingMode.HALF_UP));
+        atualizado.setLitragem(dto.valor().divide(bomba.getTipo().getValorPorLitro(), 6, RoundingMode.HALF_UP));
         return new AbastecimentoDtoResponse(atualizado);
     }
 
