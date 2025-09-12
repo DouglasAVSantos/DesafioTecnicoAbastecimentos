@@ -1,6 +1,7 @@
 package com.desafioTecnicoJunior.Abastecimentos.service;
 
 import com.desafioTecnicoJunior.Abastecimentos.dto.AbastecimentoDto;
+import com.desafioTecnicoJunior.Abastecimentos.dto.BombaDto;
 import com.desafioTecnicoJunior.Abastecimentos.exception.NotFoundException;
 import com.desafioTecnicoJunior.Abastecimentos.model.Abastecimento;
 import com.desafioTecnicoJunior.Abastecimentos.model.Bomba;
@@ -30,7 +31,8 @@ public class AbastecimentoService {
     }
 
     public List<AbastecimentoDto> getLista(String nomeBomba){
-        return repository.findAll().stream().filter(c->c.getBomba().getNome().equals(nomeBomba)).map(AbastecimentoDto::new).toList();
+        BombaDto bombaValida = bombaService.findByNome(nomeBomba);
+        return repository.findAll().stream().filter(c->c.getBomba().getNome().equals(bombaValida.nome())).map(AbastecimentoDto::new).toList();
     }
 
     public AbastecimentoDto findById(Long id){
