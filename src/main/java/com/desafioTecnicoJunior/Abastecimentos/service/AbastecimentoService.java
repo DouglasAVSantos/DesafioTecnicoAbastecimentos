@@ -1,6 +1,7 @@
 package com.desafioTecnicoJunior.Abastecimentos.service;
 
 import com.desafioTecnicoJunior.Abastecimentos.dto.AbastecimentoDto;
+import com.desafioTecnicoJunior.Abastecimentos.dto.AbastecimentoDtoResponse;
 import com.desafioTecnicoJunior.Abastecimentos.dto.BombaDto;
 import com.desafioTecnicoJunior.Abastecimentos.exception.NotFoundException;
 import com.desafioTecnicoJunior.Abastecimentos.model.Abastecimento;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,39 +21,39 @@ public class AbastecimentoService {
     private final BombaService bombaService;
     private final AbastecimentoRepository repository;
 
-    public AbastecimentoDto cadastrar(AbastecimentoDto dto){
+    public AbastecimentoDtoResponse cadastrar(AbastecimentoDto dto) {
         Bomba bomba = bombaService.getBomba(dto.bomba());
-        return new AbastecimentoDto(repository.save(new Abastecimento(bomba,dto.valor())));
+        return new AbastecimentoDtoResponse(repository.save(new Abastecimento(bomba, dto.valor())));
     }
 
-    public List<AbastecimentoDto> getLista(){
-        return repository.findAll().stream().map(AbastecimentoDto::new).toList();
+    public List<AbastecimentoDtoResponse> getLista() {
+        return repository.findAll().stream().map(AbastecimentoDtoResponse::new).toList();
     }
 
-    public List<AbastecimentoDto> getLista(String nomeBomba){
+    public List<AbastecimentoDtoResponse> getLista(String nomeBomba) {
         BombaDto bombaValida = bombaService.findByNome(nomeBomba);
-        return repository.findAll().stream().filter(c->c.getBomba().getNome().equals(bombaValida.nome())).map(AbastecimentoDto::new).toList();
+        return repository.findAll().stream().filter(c -> c.getBomba().getNome().equals(bombaValida.nome())).map(AbastecimentoDtoResponse::new).toList();
     }
 
-    public AbastecimentoDto findById(Long id){
-        return new AbastecimentoDto(repository.findById(id).orElseThrow(()-> new NotFoundException("abastecimento não encontrado para o id: '"+id+"'")));
+    public AbastecimentoDtoResponse findById(Long id) {
+        return new AbastecimentoDtoResponse(repository.findById(id).orElseThrow(() -> new NotFoundException("abastecimento não encontrado para o id: '" + id + "'")));
     }
 
-    public void deleteById(Long id){
-        if(!repository.existsById(id)){
-            throw new NotFoundException("abastecimento não encontrado para o id: '"+id+"'");
+    public void deleteById(Long id) {
+        if (!repository.existsById(id)) {
+            throw new NotFoundException("abastecimento não encontrado para o id: '" + id + "'");
         }
         repository.deleteById(id);
     }
 
-    public AbastecimentoDto atualizar(Long id, AbastecimentoDto dto){
-      Abastecimento atualizado = repository.findById(id).orElseThrow(()->new NotFoundException("abastecimento não encontrado para o id: '"+id+"'"));
-      Bomba bomba = bombaService.getBomba(dto.bomba());
-      atualizado.setBomba(bomba);
-      atualizado.setData(LocalDateTime.now());
-      atualizado.setValorTotal(dto.valor());
-      atualizado.setLitragem(dto.valor().divide(bomba.getTipo().getValorPorLitro(),3, RoundingMode.HALF_UP));
-      return new AbastecimentoDto(atualizado);
+    public AbastecimentoDtoResponse atualizar(Long id, AbastecimentoDto dto) {
+        Abastecimento atualizado = repository.findById(id).orElseThrow(() -> new NotFoundException("abastecimento não encontrado para o id: '" + id + "'"));
+        Bomba bomba = bombaService.getBomba(dto.bomba());
+        atualizado.setBomba(bomba);
+        atualizado.setData(LocalDateTime.now());
+        atualizado.setValorTotal(dto.valor());
+        atualizado.setLitragem(dto.valor().divide(bomba.getTipo().getValorPorLitro(), 3, RoundingMode.HALF_UP));
+        return new AbastecimentoDtoResponse(atualizado);
     }
 
 }
